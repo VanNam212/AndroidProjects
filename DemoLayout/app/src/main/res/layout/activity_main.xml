@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="ABC"
+        android:textAlignment="center"
+        android:gravity="center"
+        />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/textView1"
+        />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/textView1"
+
+        android:textAlignment="center"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/textView1"
+        android:layout_toRightOf="@+id/textView2"
+        android:text="GHJ"
+        android:textAlignment="center"
+        android:gravity="center"
+        />
+
+<!--    <TextView-->
+<!--        android:id="@+id/textView4"-->
+<!--        android:layout_width="540dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_below="@+id/textView2"-->
+<!--        android:layout_toLeftOf="@+id/textView3"-->
+<!--        android:text="NHA"-->
+<!--        android:textAlignment="center"-->
+<!--        android:gravity="center"/>-->
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/textView3"
+        android:layout_toRightOf="@id/textView2"
+        android:text="Click"
+        android:gravity="center"/>
+
+</RelativeLayout>
