@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/buttonShowContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"
+        android:text="ShownContacts"
+        >
+    </Button>
+    <Button
+        android:id="@+id/buttonAccessMediaStore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttonShowContact"
+        android:layout_margin="15dp"
+        android:text="ShownAccessMediaStore"
+
+        >
+    </Button>
+
+    <Button
+        android:id="@+id/buttonAccessBookMark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttonAccessMediaStore"
+        android:layout_margin="15dp"
+        android:text="ShownAccessBookmark"
+        >
+    </Button>
+
+    <Button
+        android:id="@+id/buttonAccessCallLog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttonAccessBookMark"
+        android:layout_margin="15dp"
+        android:text="ShownCallLog"
+        >
+    </Button>
+
+</RelativeLayout>
