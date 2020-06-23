@@ -1,0 +1,2 @@
+rootProject.name='DBMan_Song'
+include ':app'

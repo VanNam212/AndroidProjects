@@ -36,38 +36,39 @@ public class Contact extends AppCompatActivity {
 
     ArrayList<ContactModel> contacts;
     ContactCustomAdapter adapter;
-    public void loadContact(){
-        contacts=new ArrayList<>();
-        ContentResolver cr=getContentResolver();
-        Cursor cur=cr.query(ContactsContract.Contacts.CONTENT_URI,null,null,null,null);
-        if((cur!=null ? cur.getCount():0)>0){
-            while (cur!=null && cur.moveToNext()){
+
+    public void loadContact() {
+        contacts = new ArrayList<>();
+        ContentResolver cr = getContentResolver();
+        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+        if ((cur != null ? cur.getCount() : 0) > 0) {
+            while (cur != null && cur.moveToNext()) {
                 //String contactDetails;
-                String id=cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
-                String name=cur.getString((cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
-                String phoneNo="";
-                if (cur.getInt(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))>0){
-                    Cursor pCur=cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID+" =?",
-                            new String[]{id},null);
-                    while (pCur.moveToNext()){
-                        if (phoneNo!="") {
+                String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
+                String name = cur.getString((cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
+                String phoneNo = "";
+                if (cur.getInt(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
+                    Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " =?",
+                            new String[]{id}, null);
+                    while (pCur.moveToNext()) {
+                        if (phoneNo != "") {
                             phoneNo = phoneNo + ", ";
                         }
-                        phoneNo=phoneNo+pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        phoneNo = phoneNo + pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
                     }
                     pCur.close();
                     //contactDetails=id+", "+name+": "+phoneNo;
-                    ContactModel contact=new ContactModel(Integer.parseInt(id),name,phoneNo);
+                    ContactModel contact = new ContactModel(Integer.parseInt(id), name, phoneNo);
                     contacts.add(contact);
                 }
             }
         }
-        if (cur!=null){
+        if (cur != null) {
             cur.close();
         }
-        adapter=new ContactCustomAdapter(Contact.this,contacts);
+        adapter = new ContactCustomAdapter(Contact.this, contacts);
         lvContact.setAdapter(adapter);
     }
 
@@ -76,9 +77,9 @@ public class Contact extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
         setTitle("Contact");
-        etContactNameFilter=(EditText)findViewById(R.id.etContactNameFilter);
-        lvContact=(ListView)findViewById(R.id.lvContact);
-        fabAdd=(ImageView)findViewById(R.id.fabAdd);
+        etContactNameFilter = (EditText) findViewById(R.id.etContactNameFilter);
+        lvContact = (ListView) findViewById(R.id.lvContact);
+        fabAdd = (ImageView) findViewById(R.id.fabAdd);
 
         //////////////////
         registerForContextMenu(lvContact);
@@ -87,7 +88,7 @@ public class Contact extends AppCompatActivity {
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Intent.ACTION_INSERT,ContactsContract.Contacts.CONTENT_URI);
+                Intent intent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
                 startActivity(intent);
             }
         });
@@ -118,13 +119,13 @@ public class Contact extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.mainmenu,menu);
+        getMenuInflater().inflate(R.menu.mainmenu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menuInformation:
                 Toast.makeText(Contact.this, "Application for contact", Toast.LENGTH_SHORT).show();
                 break;
@@ -137,53 +138,53 @@ public class Contact extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        getMenuInflater().inflate(R.menu.contextmenu,menu);
-        super.onCreateContextMenu(menu,v,menuInfo);
+        getMenuInflater().inflate(R.menu.contextmenu, menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
     }
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info=(AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         String myData;
         Intent myActivity;
-        final int pos=contacts.get(info.position).getId();
-        switch (item.getItemId()){
-            case  R.id.menuView:
-                myData="content://contacts/people/"+(pos);
-                myActivity=new Intent(Intent.ACTION_VIEW, Uri.parse(myData));
+        final int pos = contacts.get(info.position).getId();
+        switch (item.getItemId()) {
+            case R.id.menuView:
+                myData = "content://contacts/people/" + (pos);
+                myActivity = new Intent(Intent.ACTION_VIEW, Uri.parse(myData));
                 startActivity(myActivity);
                 break;
             case R.id.menuEdit:
-                myData="content://contacts/people/"+(pos);
-                myActivity=new Intent(Intent.ACTION_EDIT, Uri.parse(myData));
+                myData = "content://contacts/people/" + (pos);
+                myActivity = new Intent(Intent.ACTION_EDIT, Uri.parse(myData));
                 startActivity(myActivity);
                 loadContact();
                 break;
             case R.id.menuDelete:
 //                final ArrayList ops=new ArrayList();
 //                final ContentResolver cr=getContentResolver();
-                AlertDialog.Builder alertDialog=new AlertDialog.Builder(Contact.this);
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(Contact.this);
                 alertDialog.setTitle("Delete this contact !");
                 alertDialog.setMessage("Are you sure want to delete this contact ?");
                 alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ArrayList ops=new ArrayList();
-                        ContentResolver cr=getContentResolver();
+                        ArrayList ops = new ArrayList();
+                        ContentResolver cr = getContentResolver();
                         ops.add(ContentProviderOperation.newDelete(ContactsContract.RawContacts.CONTENT_URI)
-                                .withSelection(ContactsContract.CommonDataKinds.Phone.CONTACT_ID+" = ?",new String[]{pos+""}).build());
-                        try{
-                            cr.applyBatch(ContactsContract.AUTHORITY,ops);
+                                .withSelection(ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{pos + ""}).build());
+                        try {
+                            cr.applyBatch(ContactsContract.AUTHORITY, ops);
+                        } catch (OperationApplicationException e) {
+                            e.printStackTrace();
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
                         }
-                        catch (OperationApplicationException e){
-                            e.printStackTrace();
-                        }catch (RemoteException e){
-                            e.printStackTrace();
-                        }ops.clear();
+                        ops.clear();
                         loadContact();
                     }
                 });
-                alertDialog.setNegativeButton("No",null);
+                alertDialog.setNegativeButton("No", null);
                 alertDialog.show();
                 break;
         }
